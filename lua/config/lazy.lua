@@ -16,9 +16,12 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup {
   spec = {
     { import = "plugins" },
+    { import = "plugins.extras.lang" },
+    { import = "plugins.extras.ui" },
   },
-  defaults = { lazy = true, version = "*" },
+  defaults = { lazy = true, version = nil },
   install = { missing = true, colorscheme = { "tokyonight", "gruvbox" } },
+  dev = { patterns = jit.os:find "Windows" and {} or { "alpha2phi" } },
   checker = { enabled = true },
   performance = {
     cache = {
@@ -38,4 +41,4 @@ require("lazy").setup {
     },
   },
 }
-vim.keymap.set("n", "<leader>z", "<cmd>:Lazy<cr>", { desc = "Plugin Manager" })
+vim.keymap.set("n", "<leader>zz", "<cmd>:Lazy<cr>", { desc = "Manage Plugins" })

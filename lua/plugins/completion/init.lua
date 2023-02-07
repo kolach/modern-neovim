@@ -12,6 +12,7 @@ return {
     config = function()
       local cmp = require "cmp"
       local luasnip = require "luasnip"
+      local neogen = require "neogen"
       local icons = require "config.icons"
 
       local has_words_before = function()
@@ -33,12 +34,23 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm { select = true },
+          ["<CR>"] = cmp.mapping {
+            i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false },
+            c = function(fallback)
+              if cmp.visible() then
+                cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
+              else
+                fallback()
+              end
+            end,
+          },
           ["<C-j>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
+            elseif neogen.jumpable() then
+              neogen.jump_next()
             elseif has_words_before() then
               cmp.complete()
             else
@@ -54,6 +66,8 @@ return {
               cmp.select_prev_item()
             elseif luasnip.jumpable(-1) then
               luasnip.jump(-1)
+            elseif neogen.jumpable(true) then
+              neogen.jump_prev()
             else
               fallback()
             end
@@ -115,6 +129,10 @@ return {
           { name = "cmdline" },
         }),
       })
+
+      -- Auto pairs
+      local cmp_autopairs = require "nvim-autopairs.completion.cmp"
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done { map_char = { tex = "" } })
     end,
   },
   {
@@ -125,21 +143,22 @@ return {
         require("luasnip.loaders.from_vscode").lazy_load()
       end,
     },
-    config = {
+    build = "make install_jsregexp",
+    opts = {
       history = true,
       delete_check_events = "TextChanged",
     },
     -- stylua: ignore
     keys = {
       {
-        "<tab>",
+        "<C-j>",
         function()
-          return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+          return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<C-j>"
         end,
         expr = true, remap = true, silent = true, mode = "i",
       },
-      { "<tab>", function() require("luasnip").jump(1) end, mode = "s" },
-      { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
+      { "<C-j>", function() require("luasnip").jump(1) end, mode = "s" },
+      { "<C-k>", function() require("luasnip").jump(-1) end, mode = { "i", "s" } },
     },
   },
 }
