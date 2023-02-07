@@ -88,7 +88,7 @@ return {
   },
   {
     "utilyre/barbecue.nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     dependencies = {
       "neovim/nvim-lspconfig",
@@ -108,6 +108,7 @@ return {
   },
   {
     "glepnir/lspsaga.nvim",
+    enabled = false,
     event = "VeryLazy",
     config = true,
   },
