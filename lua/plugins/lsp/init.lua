@@ -88,6 +88,7 @@ return {
   },
   {
     "utilyre/barbecue.nvim",
+    enabled = false,
     event = "VeryLazy",
     dependencies = {
       "neovim/nvim-lspconfig",
