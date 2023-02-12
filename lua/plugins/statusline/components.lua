@@ -11,7 +11,7 @@ return {
   git_repo = {
     function()
       if #vim.api.nvim_list_tabpages() > 1 and vim.fn.trim(vim.fn.system "git rev-parse --is-inside-work-tree") == "true" then
-        return vim.fn.trim(vim.fn.system "basename `git rev-parse --show-toplevel`")
+        return vim.fn.trim(vim.fn.system "basename (git rev-parse --show-toplevel)")
       end
       return ""
     end,
