@@ -108,7 +108,7 @@ return {
   },
   {
     "glepnir/lspsaga.nvim",
-    enabled = false,
+    enabled = true,
     event = "VeryLazy",
     config = true,
   },
