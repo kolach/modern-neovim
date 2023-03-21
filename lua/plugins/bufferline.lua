@@ -7,7 +7,7 @@ return {
       numbers = "buffer_id",
       diagnostics = "nvim_lsp",
       always_show_bufferline = false,
-      separator_style = "slant" or "padded_slant",
+      separator_style = "thin",
       show_tab_indicators = true,
       show_buffer_close_icons = false,
       show_close_icon = false,

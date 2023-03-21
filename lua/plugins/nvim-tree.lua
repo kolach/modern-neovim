@@ -9,11 +9,12 @@ return {
     hijack_netrw = true,
     respect_buf_cwd = true,
     view = {
-      number = true,
-      relativenumber = true,
+      width = 50,
+      number = false,
+      relativenumber = false,
     },
     filters = {
-      custom = { ".git" },
+      custom = { "^\\.git" },
     },
     sync_root_with_cwd = true,
     update_focused_file = {
@@ -22,7 +23,7 @@ return {
     },
     actions = {
       open_file = {
-        quit_on_open = true,
+        quit_on_open = false,
       },
     },
   },
