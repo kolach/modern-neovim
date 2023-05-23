@@ -1,11 +1,11 @@
 local icons = require "config.icons"
 
-local function fg(name)
-  return function()
-    local hl = vim.api.nvim_get_hl_by_name(name, true)
-    return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
-  end
-end
+-- local function fg(name)
+--   return function()
+--     local hl = vim.api.nvim_get_hl_by_name(name, true)
+--     return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
+--   end
+-- end
 
 return {
   spaces = {
@@ -17,8 +17,8 @@ return {
   },
   git_repo = {
     function()
-      if vim.fn.trim(vim.fn.system "git rev-parse --is-inside-work-tree") == "true" then
-        return vim.fn.trim(vim.fn.system "basename `git rev-parse --show-toplevel`")
+      if #vim.api.nvim_list_tabpages() > 1 and vim.fn.trim(vim.fn.system "git rev-parse --is-inside-work-tree") == "true" then
+        return vim.fn.trim(vim.fn.system "basename (git rev-parse --show-toplevel)")
       end
       return ""
     end,
@@ -99,22 +99,22 @@ return {
       vim.cmd [[LspInfo]]
     end,
   },
-  noice_mode = {
-    function()
-      return require("noice").api.status.mode.get()
-    end,
-    cond = function()
-      return package.loaded["noice"] and require("noice").api.status.mode.has()
-    end,
-    color = fg "Constant",
-  },
-  noice_command = {
-    function()
-      return require("noice").api.status.command.get()
-    end,
-    cond = function()
-      return package.loaded["noice"] and require("noice").api.status.command.has()
-    end,
-    color = fg "Statement",
-  },
+  -- noice_mode = {
+  --   function()
+  --     return require("noice").api.status.mode.get()
+  --   end,
+  --   cond = function()
+  --     return package.loaded["noice"] and require("noice").api.status.mode.has()
+  --   end,
+  --   color = fg "Constant",
+  -- },
+  -- noice_command = {
+  --   function()
+  --     return require("noice").api.status.command.get()
+  --   end,
+  --   cond = function()
+  --     return package.loaded["noice"] and require("noice").api.status.command.has()
+  --   end,
+  --   color = fg "Statement",
+  -- },
 }
